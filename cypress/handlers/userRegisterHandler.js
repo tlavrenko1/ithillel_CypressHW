@@ -25,12 +25,12 @@ export function createAccount(user) {
 
 export function validateCreatedAccount(user = {}) {
   basePage.validateCurrentUrl('/panel/garage');
-  garagePage.myProfileMainMenuDropdown().should('be.visible')
+  basePage.myProfileMainMenuDropdown().should('be.visible')
     .should('have.text', ' My profile ')
     .click();
-  garagePage.userMyProfileMainDropDown().should('be.visible');
-  garagePage.userMyProfileMainDropDown().should('contain', 'Garage');
-  garagePage.userMyProfileMainDropDownOptions('Profile')
+  basePage.userMyProfileMainDropDown().should('be.visible');
+  basePage.userMyProfileMainDropDown().should('contain', 'Garage');
+  basePage.userMyProfileMainDropDownOptions('Profile')
     .click();
-  cy.get('.profile_name').should('have.text', `${user.name} ${user.lastName}`);
+  basePage.profileNameLabel().should('have.text', `${user.name} ${user.lastName}`);
 }

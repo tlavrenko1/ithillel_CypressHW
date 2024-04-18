@@ -3,79 +3,11 @@ import BasePage from "./BasePage";
 export default class GaragePage extends BasePage {
 
     garageMainLabel() {
-        cy.get(`//h1[normalize-space()='Garage']`);
-    }
-
-    garageMainMenuTab() {
-        return cy.get(`//a[@class='btn header-link -active' and contains(text(),'Garage')]`);
-    }
-
-    fuelExpensesMainMenuTab() {
-        return cy.get(`//a[@class='btn header-link' and contains(text(),'Fuel expenses')]`);
-    }
-
-    instructionsMainMenuTab() {
-        return cy.get(`//a[@class='btn header-link' and contains(text(),'Instructions')]`);
-    }
-
-    myProfileMainMenuDropdown() {
-        return cy.get(`#userNavDropdown`);
+        return cy.get(`//h1[normalize-space()='Garage']`);
     }
 
     addCarButton() {
         return cy.get(`//button[@class='btn btn-primary' and contains(text(), 'Add car')]`);
-    }
-
-    garageSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn -active' and contains(text(),' Garage ')]`);
-    }
-
-    garageSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn -active' and contains(text(),' Garage ')]`);
-    }
-
-    fuelExpensesSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn'][normalize-space()='Fuel expenses']`);
-    }
-
-    instructionsSideMenuTab() {
-        return cy.get(`.btn.btn-white.btn-sidebar.sidebar_btn[routerlink='instructions']`);
-    }
-
-    profileSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn -profile' and normalize-space()='Profile']`);
-    }
-
-    settingsSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn' and normalize-space()='Settings']`);
-    }
-
-    logOutSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-link text-danger btn-sidebar sidebar_btn' and normalize-space()='Log out']`);
-    }
-    //dropdown. we probably need click()
-    garageMainMenuDropDown() {
-        return cy.get(`//a[@class='dropdown-item btn btn-link user-nav_link disabled' and normalize-space()='Garage']`);
-    }
-
-    fuelExpensesMainMenuDropDown() {
-        return cy.get(`//a[@class='dropdown-item btn btn-link user-nav_link'][normalize-space()='Fuel expenses']`);
-    }
-
-    instructionsMainMenuDropDown() {
-        return cy.get(`//a[@class='dropdown-item btn btn-link user-nav_link'][normalize-space()='Instructions']`);
-    }
-
-    profileMainMenuDropDown() {
-        return cy.get(`//a[@class='dropdown-item btn btn-link user-nav_link'][normalize-space()='Profile']`);
-    }
-
-    settingsMainMenuDropDown() {
-        return cy.get(`//a[@class='dropdown-item btn btn-link user-nav_link'][normalize-space()='Settings']`);
-    }
-
-    logOutMainMenuDropDown() {
-        return cy.get(`//button[@class='dropdown-item btn btn-link user-nav_link']`);
     }
 
     addACarModal() {
@@ -106,8 +38,16 @@ export default class GaragePage extends BasePage {
         return cy.get(`#addCarMileage`);
     }
 
+    mileageLabel() {
+        return cy.get(`.input-group-text`);
+    }
+
     addCarButtonInsideModal() {
-        return cy.get(`//button[normalize-space()='Add'][@class='btn btn-primary']`);
+        return cy.get(`div.modal-content`).find(`button.btn.btn-primary`);
+    }
+
+    carAddedPopUp() {
+        return cy.get(`//p[normalize-space()='Car added']`);
     }
 
     CancelCarAddingButtonInsideModal() {
@@ -115,15 +55,27 @@ export default class GaragePage extends BasePage {
     }
 
     addFuelExpenseButton() {
-        return cy.get('.car_add-expense.btn.btn-success');
+        return cy.get(`.car-item:nth-child(${number})`).find('.car_add-expense.btn.btn-success');
     }
 
-    updateMileageInput() {
-        return cy.get(`input[name='miles'][class*='update-mileage-form_input']`);
+    addedCarsRecords(number) {
+        return cy.get(`.car-item:nth-child(${number})`);
+    }
+
+    updateMileageInput(number) {
+        return cy.get(`.car-item:nth-child(${number})`).find(`button.car_add-expense`);
+    }
+
+    updateMileageButton(number) {
+        return cy.get(`.car-item:nth-child(${number})`).find(`button[type='submit']`);
+    }
+
+    editCarInfoButton() {
+        return cy.get(`.car-item:nth-child(${number})`).find(`button[type='submit']`);
     }
 
     removeCarButton() {
-        return cy.get(`//button[normalize-space()='Remove car'][@class='btn btn-outline-danger']`);
+        return cy.get(`div.modal-content`).find(`button.btn.btn-outline-danger`);
     }
 
     removeCarModal() {
@@ -137,14 +89,10 @@ export default class GaragePage extends BasePage {
     cancelBottonOnCarModal() {
         return cy.get(`button[class='btn btn-secondary']`);
     }
-    userMyProfileMainDropDown() {
-        return cy.get(`[aria-labelledby="userNavDropdown"]`);
-    }
-    
-    userMyProfileMainDropDownOptions(option) {
-        return cy.get(`.user-nav_menu-group > a`).contains(`${option}`);
-    }
 
+    youDontHaveCarsMessage() {
+        return cy.get(`.h3.panel-empty_message`);
+    }
 
 }
 export const garagePage = new GaragePage;
