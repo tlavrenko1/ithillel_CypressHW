@@ -1,5 +1,13 @@
 export default class BasePage {
 
+    modalContent() {
+        return cy.get('.modal-content');
+    }
+
+    pageHeading() {
+        return cy.get(`.panel-page_heading`);
+    }
+
     validateCurrentUrl(url) {
         return cy.url().should('include', `${url}`);
     }
@@ -53,11 +61,11 @@ export default class BasePage {
     }
 
     garageSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn -active' and contains(text(),' Garage ')]`);
+        return cy.get(`.btn.btn-white.btn-sidebar.sidebar_btn[routerlink='garage']`);
     }
 
     fuelExpensesSideMenuTab() {
-        return cy.get(`//a[@class='btn btn-white btn-sidebar sidebar_btn'][normalize-space()='Fuel expenses']`);
+        return cy.get(`.btn.btn-white.btn-sidebar.sidebar_btn.-active`);
     }
 
     instructionsSideMenuTab() {
@@ -127,6 +135,22 @@ export default class BasePage {
         return cy.get(`.profile_name`);
     }
 
+    findButtonByText(text) {
+        return cy.get('button').contains(text);
+    }
+
+    signInEmai() {
+        return cy.get('#signinEmail');
+    }
+
+    signInPassword() {
+        return cy.get('#signinPassword');
+    }
+
+    confirmButton() {
+        return this.modalContent().find(`.btn-danger`);
+    }
+
     //move to cypress commands
     generateUniqueEmail() {
         // Generate random 3-letter prefix
@@ -137,6 +161,37 @@ export default class BasePage {
 
         return `testuser${prefix}${number}@test.com`;
     }
+
+    getCurrentDate() {
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.toLocaleString('default', {
+            month: 'short'
+        });
+        let year = date.getFullYear().toString();
+        const currentDate = {
+            currentDay: day,
+            currentMonth: month,
+            currentYear: year,
+        }
+
+        return currentDate;
+    }
+
+   getRandomCar(carData) {
+    const randomNumber = Math.floor(Math.random() * 1001);
+    const randomBrand = carData.featured[randomNumber % carData.featured.length];
+
+    const randomNumberModel = Math.floor(Math.random() * 1001);
+    const randomModel = randomBrand.model[randomNumberModel % randomBrand.model.length];
+
+    return {
+        brand: randomBrand.brand,
+        model: randomModel
+    };
+}
+
 }
 
 export const basePage = new BasePage;

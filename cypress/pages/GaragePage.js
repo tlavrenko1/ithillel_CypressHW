@@ -1,4 +1,4 @@
-import BasePage from "./BasePage";
+import BasePage, { basePage } from "../pages/BasePage";
 
 export default class GaragePage extends BasePage {
 
@@ -7,7 +7,7 @@ export default class GaragePage extends BasePage {
     }
 
     addCarButton() {
-        return cy.get(`//button[@class='btn btn-primary' and contains(text(), 'Add car')]`);
+        return cy.get(`.btn.btn-primary`);
     }
 
     addACarModal() {
@@ -27,7 +27,7 @@ export default class GaragePage extends BasePage {
     }
 
     addCarModelDropDown() {
-        return cy.get(`#addCarBrand`);
+        return cy.get(`#addCarModel`);
     }
 
     addCarMileageLabel() {
@@ -43,7 +43,7 @@ export default class GaragePage extends BasePage {
     }
 
     addCarButtonInsideModal() {
-        return cy.get(`div.modal-content`).find(`button.btn.btn-primary`);
+        return  this.modalContent().find(`button.btn.btn-primary`);
     }
 
     carAddedPopUp() {
@@ -54,7 +54,7 @@ export default class GaragePage extends BasePage {
         return cy.get(`//button[normalize-space()='Cancel'][@class='btn btn-secondary']`);
     }
 
-    addFuelExpenseButton() {
+    addFuelExpenseButton(number) {
         return cy.get(`.car-item:nth-child(${number})`).find('.car_add-expense.btn.btn-success');
     }
 
@@ -70,13 +70,19 @@ export default class GaragePage extends BasePage {
         return cy.get(`.car-item:nth-child(${number})`).find(`button[type='submit']`);
     }
 
-    editCarInfoButton() {
-        return cy.get(`.car-item:nth-child(${number})`).find(`button[type='submit']`);
+    getCarCard(car) {
+        return cy.get('app-car').contains(`${car.brand} ${car.model}`);
+    }
+
+    editLastAddedCarInfoButton() {
+        return cy.get(`.car_edit.btn.btn-edit`).first();
     }
 
     removeCarButton() {
-        return cy.get(`div.modal-content`).find(`button.btn.btn-outline-danger`);
+        return this.modalContent().find(`.btn.btn-outline-danger`);
     }
+
+    
 
     removeCarModal() {
         return cy.get(`//h4[@class='modal-title']`);
@@ -94,5 +100,17 @@ export default class GaragePage extends BasePage {
         return cy.get(`.h3.panel-empty_message`);
     }
 
+    static get saveCarButton() {
+        return cy.get('//button[normalize-space()="Save"]');
+    }
+
+    get datePicker() {
+        return cy.get(`.btn.date-picker-toggle`);
+    }
+
+    findElementByValue(value) {
+        return cy.contains(value);
+    }
+
 }
-export const garagePage = new GaragePage;
+export const garagePage = new GaragePage();

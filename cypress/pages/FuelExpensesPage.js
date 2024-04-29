@@ -1,22 +1,9 @@
 import BasePage from "./BasePage";
 
-export default class FuelExpenses extends BasePage {
-
-
-    fuelExpensesMainLabel() {
-        return cy.get(`div[class='panel-page_heading d-flex flex-column flex-lg-row']`);
-    }
+export default class FuelExpensesPage extends BasePage {
 
     addAnExpense() {
         return cy.get(`button.btn.btn-primary`);
-    }
-
-    linkToGaragePage() {
-        return cy.get(`p[class='h3 panel-empty_message'] a}`);
-    }
-
-    dontHaveFuelLabel() {
-        return cy.get(`.h3.panel-empty_message`);
     }
 
     fuelExpensesDropDown() {
@@ -51,12 +38,8 @@ export default class FuelExpenses extends BasePage {
         return cy.get(`//span[@class='icon icon-calendar']`);
     }
 
-    expenseMileageLabel() {
-        return cy.get(`label[for='addExpenseMileage']`);
-    }
-
     expenseMileageInput() {
-        return cy.get(`//input[@id='addExpenseMileage']`);
+        return cy.get(`#addExpenseMileage`);
     }
 
     expenseNumberOfLitersLabel() {
@@ -64,19 +47,15 @@ export default class FuelExpenses extends BasePage {
     }
 
     expenseNumberOfLitersInput() {
-        return cy.get(`//input[@id='addExpenseLiters']`);
-    }
-
-    expenseTotalCostLabel() {
-        return cy.get(`label[for='addExpenseTotalCost']`);
+        return cy.get(`#addExpenseLiters`);
     }
 
     expenseTotalCostInput() {
-        return cy.get(`//input[@id='addExpenseTotalCost']`);
+        return cy.get(`#addExpenseTotalCost`);
     }
 
-    addExpenseButton() {
-        return cy.get(`//button[normalize-space()='Add']`);
+    generalAddButton() {
+        return `.btn.btn-primary`;
     }
 
     cancelExpenseAddingButton() {
@@ -85,11 +64,6 @@ export default class FuelExpenses extends BasePage {
 
     findPropperRecordInFuelExpencesTable(number) {
         return cy.get(`table.table.expenses_table tbody tr:nth-child(${number})`);
-    }
-
-    deletePropperRecordInFuelExpencesTable(number) {
-        return cy.get(`table.table.expenses_table tbody tr:nth-child(${number})`)
-            .find(`//button[@class='btn btn-delete']`);
     }
 
     editPropperRecordInFuelExpencesTable(number) {
@@ -101,25 +75,24 @@ export default class FuelExpenses extends BasePage {
         return cy.get(`//div[@class='modal-content']`);
     }
 
-    removeEntryModalLabel() {
-        return cy.get(`//h4[@class='modal-title']`);
+    removeFuelRecord() {
+        return cy.get('.btn.btn-delete').first();
     }
 
     closeRemoveEntryModalBotton() {
         return cy.get(`//button[@class='close']`);
     }
 
-    cancelRemoveEntryModalBotton() {
-        return cy.get(`button[class='btn btn-secondary']`);
-    }
-
     removeEntryModalBotton() {
         return cy.get(`button[class='btn btn-danger']`);
     }
 
-    fuelExpencesPopUp() {
-        return cy.get(`div[class='alert alert-success'] p`);
+    fuelExpensesTable() {
+        return cy.get(`.table.expenses_table`);
     }
 
+    checkThatFuelExpensePageIsEmpty() {
+        return cy.get(`.panel-page_empty.panel-empty`).should('be.visible');
+    }
 }
-export const fuelExpenses = new FuelExpenses;
+export const fuelExpensesPage = new FuelExpensesPage;
