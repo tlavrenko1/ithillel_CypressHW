@@ -28,5 +28,4 @@ export function validateCreatedAccount(user = {}) {
   basePage.userMyProfileMainDropDownOptions('Profile')
     .click();
   basePage.profileNameLabel().contains(`${user.name}`);
-  //basePage.profileNameLabel().should('have.text', `${user.name} ${user.lastName}`);
 }
