@@ -1,7 +1,4 @@
 import {
-    basePage
-} from "../../pages/basePage";
-import {
     Requests
 } from "../../steps/requests";
 import {
@@ -22,6 +19,7 @@ import {
 import {
     carData
 } from "../../fixtures/carData";
+import { basePage } from "../../pages/BasePage";
 
 const request = new Requests();
 
@@ -38,7 +36,7 @@ describe("Test Suite", () => {
 
     before('Register new user via API', () => {
         request.registerNewUserApi(user, email, pass).then((response) => {
-            utils.validateStatusCodeCreated(response);
+            utils.validateStatusCode(response, 201);
         });
 
     })
@@ -53,7 +51,7 @@ describe("Test Suite", () => {
         basePage.garageSideMenuTab().click();
         garageStep.addNewCar(randomCarObj);
         request.getCarList().then((response) => {
-            utils.validateStatusCodeReceivedData(response);
+            utils.validateStatusCode(response, 200);
             utils.validateCreatedCar(response, randomCarObj);
         })
     })

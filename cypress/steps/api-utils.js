@@ -1,12 +1,8 @@
 
  class Utils{
 
-    validateStatusCodeCreated(response){
-        expect(response.status).to.eq(201);
-    }
-
-    validateStatusCodeReceivedData(response){
-        expect(response.status).to.eq(200);
+    validateStatusCode(response, statusCode){
+        expect(response.status).to.eq(statusCode);
     }
 
     validateCreatedCar(response, car){
