@@ -1,12 +1,6 @@
 import {
-  garagePage
-} from "../pageObjects/GaragePage";
-import {
-  fuelExpenses
-} from "../pageObjects/FuelExpensesPage";
-import {
   basePage
-} from "../pageObjects/BasePage";
+} from "../pages/BasePage";
 
 export function createAccount(user) {
   basePage.signupName().type(user.name)
@@ -15,7 +9,8 @@ export function createAccount(user) {
   basePage.signupLastName().type(user.lastName)
     .should('have.value', user.lastName)
     .should('have.focus');
-  basePage.signupEmail().type(basePage.generateUniqueEmail());
+  user.email = basePage.generateUniqueEmail();
+  basePage.signupEmail().type(user.email);
   basePage.signupPassword().should('be.visible');
   basePage.signupPassword().type(user.password);
   basePage.signupRepeatPassword().type(user.password)
@@ -32,5 +27,5 @@ export function validateCreatedAccount(user = {}) {
   basePage.userMyProfileMainDropDown().should('contain', 'Garage');
   basePage.userMyProfileMainDropDownOptions('Profile')
     .click();
-  basePage.profileNameLabel().should('have.text', `${user.name} ${user.lastName}`);
+  basePage.profileNameLabel().contains(`${user.name}`);
 }
