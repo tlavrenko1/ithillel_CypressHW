@@ -2,12 +2,14 @@ import {
     basePage
 } from "../pages/BasePage";
 import {
-     fuelExpensesPage
+    fuelExpensesPage
 } from "../pages/FuelExpensesPage";
 import {
     garagePage
 } from "../pages/GaragePage";
-import GeneralStep from "../steps/general-step";
+import GeneralStep, {
+    generalStep
+} from "../steps/general-step";
 
 export default class GarageStep extends GeneralStep {
     addNewCar(car) {
@@ -31,6 +33,11 @@ export default class GarageStep extends GeneralStep {
 
     checkThatCarIsDeleted(car) {
         garagePage.findElementByValue(`${car.brand} ${car.model}`).should('not.exist');
+    }
+
+    addAnExpenseOnGaragePage(date) {
+        garagePage.addFuelExpenseButton(1).click();
+        generalStep.addExpense(date);
     }
 }
 

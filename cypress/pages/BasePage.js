@@ -65,7 +65,7 @@ export default class BasePage {
     }
 
     fuelExpensesSideMenuTab() {
-        return cy.get(`.btn.btn-white.btn-sidebar.sidebar_btn.-active`);
+        return cy.get(`.btn.btn-white.btn-sidebar.sidebar_btn[routerlink='expenses']`);
     }
 
     instructionsSideMenuTab() {
@@ -116,21 +116,6 @@ export default class BasePage {
         return cy.get(`.user-nav_menu-group > a`).contains(`${option}`);
     }
 
-    footerLogo() {
-        return cy.get(`//a[@class='footer_logo']`);
-    }
-
-    footerCopyRightText() {
-        return cy.get(`body app-root app-footer p:nth-child(1)`);
-    }
-
-    footerTextHillel() {
-        return cy.get(`//p[contains(text(),'Hillel auto developed in Hillel IT school for educ')]`);
-    }
-
-    headerLogo() {
-        return cy.get(`//a[@class='header_logo']//*[name()='svg']`);
-    }
     profileNameLabel() {
         return cy.get(`.profile_name`);
     }
@@ -194,19 +179,18 @@ export default class BasePage {
         return currentDate;
     }
 
-   getRandomCar(carData) {
-    const randomNumber = Math.floor(Math.random() * 1001);
-    const randomBrand = carData.featured[randomNumber % carData.featured.length];
+    getRandomCar(carData) {
+        const randomNumber = Math.floor(Math.random() * 1001);
+        const randomBrand = carData.featured[randomNumber % carData.featured.length];
 
-    const randomNumberModel = Math.floor(Math.random() * 1001);
-    const randomModel = randomBrand.model[randomNumberModel % randomBrand.model.length];
+        const randomNumberModel = Math.floor(Math.random() * 1001);
+        const randomModel = randomBrand.model[randomNumberModel % randomBrand.model.length];
 
-    return {
-        brand: randomBrand.brand,
-        model: randomModel
-    };
-}
-
+        return {
+            brand: randomBrand.brand,
+            model: randomModel
+        };
+    }
 }
 
 export const basePage = new BasePage;

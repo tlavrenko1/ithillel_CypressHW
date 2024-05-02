@@ -7,13 +7,26 @@ import {
 } from "../pages/FuelExpensesPage";
 
 export default class FuelExpensesStep extends GeneralStep {
+
+    addExpenseOnFuelPage(date) {
+        fuelExpensesPage.addFuelExpenseButton().click();
+        this.addExpense(date);
+    }
+
     checkThatFuelExpenseIsAdded() {
         fuelExpensesPage.fuelExpensesTable().should(`be.visible`);
     }
 
-    checkThatFuelExpenseIsDeleted() {
-        
+    getGarageSideMenuTab() {
+        return fuelExpensesPage.garageSideMenuTab();
+    }
 
+    getFuelSideMenuTab() {
+        return garagePage.fuelExpensesSideMenuTab()
+    }
+
+    checkThatFuelExpensePageIsEmpty() {
+        return fuelExpensesPage.emptyFuelExpensePageLabel().should('be.visible');
     }
 }
 export const fuelExpensesStep = new FuelExpensesStep();

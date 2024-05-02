@@ -82,8 +82,6 @@ export default class GaragePage extends BasePage {
         return this.modalContent().find(`.btn.btn-outline-danger`);
     }
 
-    
-
     removeCarModal() {
         return cy.get(`//h4[@class='modal-title']`);
     }

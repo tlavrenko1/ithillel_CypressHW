@@ -2,7 +2,7 @@ import BasePage from "./BasePage";
 
 export default class FuelExpensesPage extends BasePage {
 
-    addAnExpense() {
+    addFuelExpenseButton() {
         return cy.get(`button.btn.btn-primary`);
     }
 
@@ -10,24 +10,12 @@ export default class FuelExpensesPage extends BasePage {
         return cy.get(`#carSelectDropdown`);
     }
 
-    fuelExpensesLabel() {
-        return cy.get(`div[class='panel-page_heading d-flex flex-column flex-lg-row'] h1`);
-    }
-
     addExpenseModal() {
         return cy.get(`.modal-title`);
     }
 
-    vehicleExpenseLabel() {
-        return cy.get(`label[for='addExpenseCar']`);
-    }
-
     vehicleExpenseDropDown() {
         return cy.get(`//select[@id='addExpenseCar']`);
-    }
-
-    expenseReportDateLabel() {
-        return cy.get(`//label[@for='addExpenseDate']`);
     }
 
     expenseReportDateInput() {
@@ -40,10 +28,6 @@ export default class FuelExpensesPage extends BasePage {
 
     expenseMileageInput() {
         return cy.get(`#addExpenseMileage`);
-    }
-
-    expenseNumberOfLitersLabel() {
-        return cy.get(`label[for='addExpenseLiters']`);
     }
 
     expenseNumberOfLitersInput() {
@@ -91,7 +75,7 @@ export default class FuelExpensesPage extends BasePage {
         return cy.get(`.table.expenses_table`);
     }
 
-    checkThatFuelExpensePageIsEmpty() {
+    emptyFuelExpensePageLabel() {
         return cy.get(`.panel-page_empty.panel-empty`).should('be.visible');
     }
 }
