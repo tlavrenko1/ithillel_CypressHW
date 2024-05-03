@@ -1,12 +1,6 @@
 import {
-    Requests
-} from "../../steps/requests";
-import {
     user
 } from "../../fixtures/user";
-import {
-    utils
-} from "../../steps/api-utils";
 import {
     generalStep
 } from "../../steps/general-step";
@@ -19,11 +13,21 @@ import {
 import {
     carData
 } from "../../fixtures/carData";
-import { basePage } from "../../pages/BasePage";
+import {
+    basePage
+} from "../../pages/BasePage";
+import {
+    fuelExpensesStep
+} from "../../steps/fuel-expenses-step";
+import {interceptedRequest} from "../../fixtures/interceptedRequest";
 
-const request = new Requests();
 
-describe("Test Suite", () => {
+const date = new Date();
+let createdCarID;
+let recentlyAddedFuelObj;
+let createdCarResponse;
+
+describe("Testing of basic scenario via API ", () => {
     const email = basePage.generateUniqueEmail();
     const pass = basePage.generatePass();
 
@@ -35,25 +39,50 @@ describe("Test Suite", () => {
     }
 
     before('Register new user via API', () => {
-        request.registerNewUserApi(user, email, pass).then((response) => {
-            utils.validateStatusCode(response, 201);
-        });
-
+        generalStep.signUpViaApi(user, email, pass);
     })
 
     beforeEach(() => {
-        cy.clearCookies();
+        generalStep.cleanCookies();
     })
-    it('Login as registered user', () => {
-        cy.visit('/'); 
-        generalStep.login(email, pass);
-        validateCreatedAccount(user);
-        basePage.garageSideMenuTab().click();
-        garageStep.addNewCar(randomCarObj);
-        request.getCarList().then((response) => {
-            utils.validateStatusCode(response, 200);
-            utils.validateCreatedCar(response, randomCarObj);
+
+    after(() => {
+        cy.log(interceptedRequest);
+    })
+
+    it('Login as registered user via API', () => {
+
+        generalStep.logInViaApi(email, pass);
+        generalStep.logOutViaApi();
+    })
+
+    it('Add a car to garage', () => {
+        generalStep.logInViaApi(email, pass);
+        generalStep.openMainPage();
+        generalStep.saveInterceptedRequestToFile('POST', '/api/cars', () => {
+            garageStep.addNewCar(randomCarObj);
         })
+        .then(data => {
+            createdCarID = data.id;
+        });
+        garageStep.checkThatCarInCarListViaAPI(createdCarID, randomCarObj);
+    });
+    
+
+    it('Add expense for the car via API', () => {
+        generalStep.logInViaApi(email, pass);
+        fuelExpensesStep.addExpenseToCarViaAPI(createdCarID, date.toISOString(), randomCarObj.mileage + 1, 1, 100)
+        .then(response => {
+            recentlyAddedFuelObj = response;
+        });
+    })
+
+    it('Validate on UI that fuel expense was added via API', () => {
+        generalStep.logInViaApi(email, pass);
+        generalStep.openMainPage();
+        fuelExpensesStep.getFuelSideMenuTab();
+        fuelExpensesStep.selectCarFromDropdown(randomCarObj);
+        fuelExpensesStep.getRecentlyAddedExpenseFromTable(recentlyAddedFuelObj);
     })
 
 })

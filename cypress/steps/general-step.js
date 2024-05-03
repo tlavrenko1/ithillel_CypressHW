@@ -12,6 +12,10 @@ import {
     createAccount,
     validateCreatedAccount
 } from "../handlers/userRegisterHandler";
+import {
+    request
+} from "../steps/requests";
+import { utils } from "./api-utils";
 
 
 export default class GeneralStep {
@@ -64,6 +68,24 @@ export default class GeneralStep {
         })
     }
 
+    saveInterceptedRequestToFile(method, url, action) {
+        cy.intercept(method, url).as('request');
+        action();
+        return cy.wait('@request').then((res) => {
+            expect(res.response.statusCode).to.eq(201);
+            let responseBody = res.response.body;
+            cy.log('responseBody:', responseBody); // Log the response object
+        
+            const filePath = './cypress/fixtures/interceptedRequest.js';
+            const fileContent = `export const interceptedRequest = ${JSON.stringify(responseBody, null, 2)};`;
+            cy.writeFile(filePath, fileContent, 'utf-8');
+            cy.log('File written successfully');
+
+            return Cypress.Promise.resolve(responseBody.data);
+        });
+
+    }
+
     addExpense(date) {
         this.datePicker(date.currentDay, date.currentMonth, date.currentYear);
         fuelExpensesPage.expenseMileageInput().invoke('val').then((val) => {
@@ -73,6 +95,28 @@ export default class GeneralStep {
         fuelExpensesPage.expenseNumberOfLitersInput().type('10');
         fuelExpensesPage.expenseTotalCostInput().type('100');
         fuelExpensesPage.modalContent().find(fuelExpensesPage.generalAddButton()).click();
+    }
+
+    signUpViaApi(user, email, pass){
+        request.registerNewUserApi(user, email, pass).then((response) => {
+            utils.validateStatusCode(response, 201);
+        });
+    }
+
+    cleanCookies() {
+        cy.clearCookies();
+    }
+
+    logInViaApi(email, pass) {
+        request.loginViaApi(email, pass).then((response) => {
+            utils.validateStatusCode(response, 200);
+        })
+    }
+
+    logOutViaApi() {
+        request.logOutViaApi().then((response) => {
+            utils.validateStatusCode(response, 200);
+        })
     }
 }
 
