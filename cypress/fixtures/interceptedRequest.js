@@ -1,15 +1,15 @@
 export const interceptedRequest = {
   "status": "ok",
   "data": {
-    "id": 119411,
+    "id": 119978,
     "carBrandId": 1,
-    "carModelId": 1,
+    "carModelId": 2,
     "initialMileage": 100,
-    "updatedMileageAt": "2024-05-03T23:15:56.055Z",
-    "carCreatedAt": "2024-05-03T23:15:56.055Z",
+    "updatedMileageAt": "2024-05-14T18:41:32.267Z",
+    "carCreatedAt": "2024-05-14T18:41:32.267Z",
     "mileage": 100,
     "brand": "Audi",
-    "model": "TT",
+    "model": "R8",
     "logo": "audi.png"
   }
 };

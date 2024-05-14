@@ -5,7 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:chrome": "cypress run --browser chrome",
+    "all-tests:run": "cypress run --browser chrome --spec 'cypress/e2e/**' --config video=true --reporter mochawesome --reporter-options reportDir=reports/all,html=true,overwrite=false,json=true",
+    "regression": "cypress run --browser chrome --spec 'cypress/e2e/regression/**' --config video=true --reporter mochawesome --reporter-options reportDir=reports/regression,html=false,overwrite=false,json=true",
+    "smoke": "cypress run --browser chrome --spec 'cypress/e2e/smoke/**' --config video=true --reporter mochawesome --reporter-options reportDir=reports/smoke,html=true,overwrite=false,json=true",
+    "merge:report": "npx mochawesome-merge \"cypress/reports/*.json\" > mochawesome.json && npx marge mochawesome.json",
+    "merge:smoke:results": "npx mochawesome-merge \"reports/smoke/*.json\" > reports/smoke.json",
+    "merge:regression:results": "npx mochawesome-merge \"reports/regression/*.json\" > reports/regression.json",
+    "smoke:report": "npm run smoke && npm run merge:smoke:results",
+    "regression:report": "npm run regression && npm run merge:regression:results",
+    "all:report": "npm run all-tests:run && npm run merge:report"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +25,12 @@
     "cypress": "^13.7.3",
     "cypress-xpath": "^2.0.1",
     "eslint": "^9.0.0",
-    "globals": "^15.0.0"
+    "globals": "^15.0.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0"
+  },
+  "dependencies": {
+    "mocha": "^10.4.0"
   }
 }
