@@ -1,0 +1,41 @@
+name: Cypress Tests with Chrome in Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        run: brew install docker
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Pull Cypress Docker image with Chrome
+        run: docker pull cypress/included:latest
+
+      - name: Run Cypress tests in Chrome using Docker
+        run: docker run -v ${{ github.workspace }}:/e2e -w /e2e cypress/included:latest --browser chrome
+
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
