@@ -1,9 +1,5 @@
-# Use the official Cypress image as the base image
-FROM cypress/included:latest
-
-# Install Firefox
-RUN apt-get update && \
-    apt-get install -y firefox-esr
+# Use the Cypress browsers image with specific versions
+FROM cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
 
 # Set the working directory
 WORKDIR /app
@@ -17,8 +13,8 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Verify Cypress and Firefox installation
+# Verify Cypress installation (if using Cypress)
 RUN npx cypress verify
 
 # Command to run tests
-CMD ["npx", "cypress", "run", "--browser", "firefox"]
+CMD ["npx", "cypress", "run", "--browser", "chrome"]
