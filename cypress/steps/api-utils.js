@@ -10,6 +10,7 @@
         expect(response.body.data[0].model).to.eq(car.model);
         expect(response.body.data[0].mileage).to.eq(car.mileage);
     }
+    
 }
 
 export const utils = new Utils();

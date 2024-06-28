@@ -52,10 +52,10 @@ describe("Test Suite", () => {
   })
 
   it("Check that is possible to delete fuel to the car", () => {
-    fuelExpensesStep.getFuelSideMenuTab().click();
+    fuelExpensesStep.getFuelSideMenuTab();
     fuelExpensesStep.addExpenseOnFuelPage(basePage.getCurrentDate());
     fuelExpensesStep.checkThatFuelExpenseIsAdded();
-    fuelExpensesStep.getFuelSideMenuTab().click();
+    fuelExpensesStep.getFuelSideMenuTab();
     fuelExpensesPage.removeFuelRecord().click({
       force: true
     });
@@ -63,7 +63,7 @@ describe("Test Suite", () => {
     fuelExpensesStep.checkThatFuelExpensePageIsEmpty();
   })
   it("Check that is possible to fuel to a car", () => {
-    fuelExpensesStep.getFuelSideMenuTab().click();
+    fuelExpensesStep.getFuelSideMenuTab();
     fuelExpensesStep.addExpenseOnFuelPage(basePage.getCurrentDate());
     fuelExpensesStep.checkThatFuelExpenseIsAdded();
   })

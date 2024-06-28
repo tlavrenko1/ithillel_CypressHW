@@ -6,8 +6,9 @@ export default class FuelExpensesPage extends BasePage {
         return cy.get(`button.btn.btn-primary`);
     }
 
-    fuelExpensesDropDown() {
-        return cy.get(`#carSelectDropdown`);
+    fuelExpensesDropDown(car) {
+        return cy.get(`#carSelectDropdown`).click()
+        .contains(`${car.brand} ${car.model}`).click();
     }
 
     addExpenseModal() {
@@ -46,11 +47,11 @@ export default class FuelExpensesPage extends BasePage {
         return cy.get(`//button[normalize-space()='Cancel']`);
     }
 
-    findPropperRecordInFuelExpencesTable(number) {
+    findProperRecordInFuelExpensesTable(number) {
         return cy.get(`table.table.expenses_table tbody tr:nth-child(${number})`);
     }
 
-    editPropperRecordInFuelExpencesTable(number) {
+    editProperRecordInFuelExpensesTable(number) {
         return cy.get(`table.table.expenses_table tbody tr:nth-child(${number})`)
             .find(`//button[@class='btn btn-edit']`);
     }
@@ -78,5 +79,6 @@ export default class FuelExpensesPage extends BasePage {
     emptyFuelExpensePageLabel() {
         return cy.get(`.panel-page_empty.panel-empty`).should('be.visible');
     }
+
 }
 export const fuelExpensesPage = new FuelExpensesPage;

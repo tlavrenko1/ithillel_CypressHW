@@ -3,7 +3,7 @@ export const carData = {
         {
             "brand": "Audi",
             "model": [
-                "TT","R8","Q7","A8"
+                "TT","R8","A8"
             ],
             "mileage": "100"
         },
