@@ -1,4 +1,4 @@
-name: Cypress Tests with Chrome in Docker
+name: Cypress Tests on Chrome using Docker
 
 on:
   push:
@@ -10,23 +10,33 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker
-        run: brew install docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Pull specific Docker image
+        run: docker pull sha256:79fbc9e855d539a6de6a371b52424bfac9c30ac737c53ecfc5ae15b11b0e0480
 
       - name: Install dependencies
         run: npm install
 
-      - name: Pull Cypress Docker image with Chrome
-        run: docker pull cypress/included:latest
+      - name: Start server and wait for it to be available
+        run: |
+          npm start &
+          npx wait-on http://localhost:8080
 
       - name: Run Cypress tests in Chrome using Docker
-        run: docker run -v ${{ github.workspace }}:/e2e -w /e2e cypress/included:latest --browser chrome
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/e2e \
+            -w /e2e \
+            sha256:79fbc9e855d539a6de6a371b52424bfac9c30ac737c53ecfc5ae15b11b0e0480 \
+            npx cypress run --browser chrome
 
       - name: Upload Cypress screenshots
         uses: actions/upload-artifact@v3
