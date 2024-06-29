@@ -6,7 +6,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     container:
-      image: your-repo/your-image-name:latest
+      image: lavrenkot/cypress-tests:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
