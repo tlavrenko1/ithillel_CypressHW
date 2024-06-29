@@ -1,5 +1,8 @@
 # Use the official Cypress image as the base image
-FROM cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
+FROM cypress/included:latest
+
+# Install Firefox
+RUN apt-get update && apt-get install
 
 # Set the working directory
 WORKDIR /app
