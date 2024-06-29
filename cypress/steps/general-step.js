@@ -40,7 +40,7 @@ export default class GeneralStep {
         return cy.url().should('include', url);
     }
     openMainPage() {
-        return cy.visit('/');
+        return cy.visit(Cypress.env('baseUrl'));
     }
 
     checkThatSignUpButtonExists() {
