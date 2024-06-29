@@ -30,8 +30,8 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
-        push: false
-        tags: my-cypress-test-image:latest
+        push: true
+        tags: lavrenkot/cypress-build-tests:latest
 
     - name: Run Cypress tests in Docker
-      run: docker run --rm my-cypress-test-image:latest
+      run: docker run --rm lavrenkot/cypress-build-tests:latest
